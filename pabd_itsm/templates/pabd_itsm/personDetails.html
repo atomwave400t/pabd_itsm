@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+
+<style>
+
+form {
+  display: grid;
+  grid-template-columns: 0.17fr 0.2fr;
+
+}
+
+tr {
+}
+
+
+
+
+</style>
+
+<body>
+<div class="container-fluid" style="background-color: red">
+  <div class="row" style="background-color: blue; height: 50px">
+    <div class="col-sm-3">
+      Kolejka
+    </div>
+    <div class="col-sm-3">
+      Zasoby
+    </div>
+    <div class="col-sm-3">
+      Osoby
+    </div>
+    <div class="col-sm-3">
+      Zgłoszenia
+    </div>
+    <div class="col-sm-3">
+      Szablony
+    </div>
+    <div class="col-sm-3">
+      Atrybuty
+    </div>
+  </div>
+  <div class="row" style="background-color: pink; padding-bottom: 10px; padding-top: 10px">
+    <div class="col-sm-7">
+      <div id="date-time-details">
+      </div>
+      <form action="" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Submit">
+      </form>
+      <script>
+        document.getElementById("id_name").value = "{{ person.name }}"
+        document.getElementById("id_surname").value = "{{ person.surname }}"
+        document.getElementById("id_address").value = "{{ person.address }}"
+        document.getElementById("id_email_address").value = "{{ person.email_address }}"
+        document.getElementById("id_gender").value = "{{ person.gender }}"
+        document.getElementById("id_login").value = "{{ person.login }}"
+        document.getElementById("id_user_type").value = "{{ person.user_type }}"
+        document.getElementById("id_business_unit").value = "{{ person.business_unit }}"
+        document.getElementById("id_job_title").value = "{{ person.job_title }}"
+      </script>
+    </div>
+    <div class="col-sm">
+
+    </div>
+  </div>
+</div>
+
+
+
+  <script src="js/scripts.js"></script>
+
+</body>
+</html>

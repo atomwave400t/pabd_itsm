@@ -1,0 +1,186 @@
+{% extends "pabd_itsm/base.html" %}
+{% block content %}
+
+<style>
+
+
+.filter-input {
+  width: 95%;
+}
+table {
+  background-color: #ccc;
+  margin-bottom: 30px;
+  border-bottom: black solid 1px;
+}
+</style>
+
+<div class="container-fluid">
+  <div id="queues" class="row" style="margin-left: -15px; margin-right: -30px;">
+    <div class="col-sm-12 row">
+      <table id="new-tickets" class="col-sm-6 queue-portlet" style="  margin-right: 90px;">
+        <tr>
+          <th>New tickets</th>
+        </tr>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Created</th>
+          <th>Priority</th>
+        </tr>
+        <form class="row" method="GET" style="">{% csrf_token %}
+        <tr>
+          <td><input class="filter-input" id="ticket_id" type="text" name="ticket_id" value="{{ ticket_id }}"></td>
+          <td><input class="filter-input" id="ticket_title" type="text" name="ticket_title" value="{{ ticket_title }}"></td>
+          <td><input class="filter-input" id="ticket_author_login" type="text" name="ticket_author_login" value="{{ ticket_author_login }}"></td>
+          <td><input class="filter-input" id="ticket_creation_date" type="text" name="ticket_creation_date" value="{{ ticket_creation_date }}"></td>
+          <td><input class="filter-input" id="ticket_priority" type="text" name="ticket_priority" value="{{ ticket_priority }}"></td>
+          <input type="hidden" name="new_tickets_filter" value="search">
+          <input type="submit" style="display: none" value="search">
+        </tr>
+        </form>
+        {% for ticket in new_requests %}
+          <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.author_id.login }}</td>
+            <td>{{ ticket.creation_date|date:'Y-m-d h:i:s'  }}</td>
+            <td>{{ ticket.priority.value }}</td>
+            <form action="/tickets/ticketDetails/" method="GET">
+              <td><input id="ticket_id" type="text" name="ticket_id" value="{{ ticket.id }}" style="display: none"></td>
+              <td><input id="work_journal_page" type="text" name="work_journal_page" value="1" style="display: none"></td>
+              <td><button type="submit" name="" value="" class="btn-link">Go</button></td>
+            </form>
+          </tr>
+        {% endfor %}
+      </table>
+      <table id="suspended-tickets" class="col-sm-5 queue-portlet">
+        <tr>
+          <th>Suspended</th>
+        </tr>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Created</th>
+          <th>Resume date</th>
+          <th>Priority</th>
+        </tr>
+        <form class="row" method="GET" style="">{% csrf_token %}
+        <tr>
+          <td><input class="filter-input" id="ticket_id" type="text" name="ticket_id" value="{{ ticket_id }}"></td>
+          <td><input class="filter-input" id="ticket_title" type="text" name="ticket_title" value="{{ ticket_title }}"></td>
+          <td><input class="filter-input" id="ticket_author_login" type="text" name="ticket_author_login" value="{{ ticket_author_login }}"></td>
+          <td><input class="filter-input" id="ticket_creation_date" type="text" name="ticket_creation_date" value="{{ ticket_creation_date }}"></td>
+          <td><input class="filter-input" id="ticket_resume_date" type="text" name="ticket_resume_date" value="{{ ticket_resume_date }}"></td>
+          <td><input class="filter-input" id="ticket_priority" type="text" name="ticket_priority" value="{{ ticket_priority }}"></td>
+          <input type="hidden" name="suspended_tickets_filter" value="search">
+          <input type="submit" style="display: none" value="search">
+        </tr>
+        </form>
+        {% for ticket in suspended_requests %}
+          <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.author_id.login }}</td>
+            <td>{{ ticket.creation_date|date:'Y-m-d h:i:s'  }}</td>
+            <td>{{ ticket.resume_date|date:'Y-m-d h:i:s'  }}</td>
+            <td>{{ ticket.priority.value }}</td>
+            <form action="/tickets/ticketDetails/" method="GET">
+              <td><input id="ticket_id" type="text" name="ticket_id" value="{{ ticket.id }}" style="display: none"></td>
+              <td><input id="work_journal_page" type="text" name="work_journal_page" value="1" style="display: none"></td>
+              <td><button type="submit" name="" value="" class="btn-link">Go</button></td>
+            </form>
+          </tr>
+        {% endfor %}
+      </table>
+      <table id="queued-tickets" class="col-sm-12 queue-portlet">
+        <tr>
+          <th>Not processed</th>
+        </tr>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Created</th>
+          <th>Last change</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+        <form class="row" method="GET" style="">{% csrf_token %}
+        <tr>
+          <td><input class="filter-input" id="ticket_id" type="text" name="ticket_id" value="{{ ticket_id }}"></td>
+          <td><input class="filter-input" id="ticket_title" type="text" name="ticket_title" value="{{ ticket_title }}"></td>
+          <td><input class="filter-input" id="ticket_author_login" type="text" name="ticket_author_login" value="{{ ticket_author_login }}"></td>
+          <td><input class="filter-input" id="ticket_creation_date" type="text" name="ticket_creation_date" value="{{ ticket_creation_date }}"></td>
+          <td><input class="filter-input" id="ticket_last_change_date" type="text" name="ticket_resume_date" value="{{ ticket_last_change_date }}"></td>
+          <td><input class="filter-input" id="ticket_status_name" type="text" name="ticket_status_name" value="{{ ticket_status_name }}"></td>
+          <td><input class="filter-input" id="ticket_priority" type="text" name="ticket_priority" value="{{ ticket_priority }}"></td>
+          <input type="hidden" name="queued_tickets_filter" value="search">
+          <input type="submit" style="display: none" value="search">
+        </tr>
+        </form>
+        {% for ticket in queued_requests %}
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td>{{ ticket.title }}</td>
+          <td>{{ ticket.author_id.login }}</td>
+          <td>{{ ticket.creation_date|date:'Y-m-d h:i:s'  }}</td>
+          <td>{{ ticket.last_change_date|date:'Y-m-d h:i:s'  }}</td>
+          <td>{{ ticket.status_id.name }}</td>
+          <td>{{ ticket.priority.value }}</td>
+          <form action="/tickets/ticketDetails/" method="GET">
+            <td><input id="ticket_id" type="text" name="ticket_id" value="{{ ticket.id }}" style="display: none"></td>
+            <td><input id="work_journal_page" type="text" name="work_journal_page" value="1" style="display: none"></td>
+            <td><button type="submit" name="" value="" class="btn-link">Go</button></td>
+          </form>
+        </tr>
+        {% endfor %}
+      </table>
+      <table class="col-sm-12 queue-portlet">
+        <tr>
+          <th>My tickets</th>
+        </tr>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Created</th>
+          <th>Last change</th>
+          <th>Status</th>
+          <th>Priority</th>
+        </tr>
+        <form class="row" method="GET" style="">{% csrf_token %}
+        <tr>
+          <td><input class="filter-input" id="ticket_id" type="text" name="ticket_id" value="{{ ticket_id }}"></td>
+          <td><input class="filter-input" id="ticket_title" type="text" name="ticket_title" value="{{ ticket_title }}"></td>
+          <td><input class="filter-input" id="ticket_author_login" type="text" name="ticket_author_login" value="{{ ticket_author_login }}"></td>
+          <td><input class="filter-input" id="ticket_creation_date" type="text" name="ticket_creation_date" value="{{ ticket_creation_date }}"></td>
+          <td><input class="filter-input" id="ticket_last_change_date" type="text" name="ticket_resume_date" value="{{ ticket_last_change_date }}"></td>
+          <td><input class="filter-input" id="ticket_priority" type="text" name="ticket_priority" value="{{ ticket_priority }}"></td>
+          <td><input class="filter-input" id="ticket_status_name" type="text" name="ticket_status_name" value="{{ ticket_status_name }}"></td>
+          <input type="hidden" name="queued_tickets_filter" value="search">
+          <input type="submit" style="display: none" value="search">
+        </tr>
+        </form>
+        {% for ticket in your_tickets %}
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td>{{ ticket.title }}</td>
+          <td>{{ ticket.author_id.login }}</td>
+          <td>{{ ticket.creation_date|date:'Y-m-d h:i:s'  }}</td>
+          <td>{{ ticket.last_change_date|date:'Y-m-d h:i:s'  }}</td>
+          <td>{{ ticket.status_id.name }}</td>
+          <td>{{ ticket.priority.value }}</td>
+          <form action="/tickets/ticketDetails/" method="GET">
+            <td><input id="ticket_id" type="text" name="ticket_id" value="{{ ticket.id }}" style="display: none"></td>
+            <td><input id="work_journal_page" type="text" name="work_journal_page" value="1" style="display: none"></td>
+            <td><button type="submit" name="" value="" class="btn-link">Go</button></td>
+          </form>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+</div>
+
+{% endblock %}

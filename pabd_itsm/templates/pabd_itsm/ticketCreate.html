@@ -1,0 +1,57 @@
+{% extends "pabd_itsm/base.html" %}
+{% block content %}
+<style>
+
+
+
+form {
+  display: grid;
+  grid-template-columns: 0.18fr 0.2fr;
+
+}
+
+td, th {
+  min-width: 120px;
+  max-width: 240px;
+}
+
+.filter-input {
+  width: 95%;
+}
+
+.edit-module {
+  border: 1px black solid;
+  border-radius: 5px;
+}
+
+</style>
+
+<body>
+<div class="container-fluid">
+  <div class="row" style=" padding-bottom: 10px; padding-top: 10px">
+    <div id="ticket-edit" class="col-sm-4 edit-module" style="background-color: #1188ff">
+      <form action="" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Save">
+      </form>
+    </div>
+    </div>
+  </div>
+
+<script>
+  document.getElementById("id_title").value = "{{ ticket.title }}"
+  document.getElementById("id_description").value = "{{ ticket.description }}"
+  document.getElementById("id_status_id").value = "{{ ticket.status_id.name }}"
+  document.getElementById("id_author_id").value = "{{ ticket.author_id.login }}"
+  document.getElementById("id_owner_id").value = "{{ ticket.owner_id.login }}"
+  document.getElementById("id_resume_date").value = "{{ ticket.resume_date|date:'Y-m-d h:i:s' }}"
+  document.getElementById("id_classification").value = "{{ ticket.classification.name }}"
+  document.getElementById("id_business_unit").value = "{{ ticket.business_unit }}"
+  document.getElementById("id_priority").value = "{{ ticket.priority.value }}"
+  document.getElementById("id_asset_id").value = "{{ ticket.asset_id.id }}"
+</script>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "pabd_itsm/base.html" %}
+{% block content %}
+
+<style>
+
+form {
+  display: grid;
+  grid-template-columns: 0.17fr 0.2fr;
+
+}
+
+tr {
+}
+
+.edit-module {
+  border: 1px black solid;
+  border-radius: 5px;
+  background-color: #1188ff;
+}
+
+
+</style>
+
+<body>
+<div class="container-fluid">
+  <div class="row" style="padding-bottom: 10px; padding-top: 10px; ">
+    <div class="col-sm-7 edit-module">
+      <table style="width: 45%">
+        <tr>
+          <th>Created:</th>
+        </tr>
+        <tr>
+          <td>{{ asset.creation_date|date:'Y-m-d h:i:s'  }}</td>
+        </tr>
+        <tr>
+          <th>Last change:</th>
+        </tr>
+        <tr>
+          <td>{{ asset.last_change_date|date:'Y-m-d h:i:s' }}</td>
+        </tr>
+        <tr>
+          <td><br></td>
+        </tr>
+      </table>
+      <form action="" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Submit">
+      </form>
+      <script>
+        document.getElementById("id_person_id").value = "{{ asset.person_id.login }}"
+        document.getElementById("id_business_unit").value = "{{ asset.business_unit.name }}"
+        document.getElementById("id_serial_number").value = "{{ asset.serial_number }}"
+        document.getElementById("id_title").value = "{{ asset.title }}"
+        document.getElementById("id_code_name").value = "{{ asset.code_name }}"
+        document.getElementById("id_status").value = "{{ asset.status.name }}"
+        document.getElementById("id_asset_type").value = "{{ asset.asset_type.name }}"
+      </script>
+    </div>
+    <div class="col-sm">
+
+    </div>
+  </div>
+</div>
+
+
+
+  <script src="js/scripts.js"></script>
+
+</body>
+</html>
+{% endblock %}

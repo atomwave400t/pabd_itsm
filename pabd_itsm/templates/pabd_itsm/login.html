@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+
+<style>
+
+form {
+  display: grid;
+  grid-template-columns: 0.17fr 0.2fr;
+
+}
+
+tr {
+}
+
+
+
+
+</style>
+
+<body>
+<div class="container-fluid" style="background-color: red">
+  <div class="row justify-content-md-center" style="background-color: #1188ff; padding-bottom: 10px; padding-top: 10px">
+    <div class="col-4">
+
+    </div>
+    <div class="col-4">
+        <h1>ITSM</h1>
+    </div>
+    <div class="col-4">
+
+    </div>
+  </div>
+  <div class="row" style="background-color: #11aaff; padding-bottom: 10px; padding-top: 10px">
+    <div class="col-4">
+
+    </div>
+    <div class="col-sm-4">
+      <form method="post">{% csrf_token %}
+      {% for field in login_form %}
+          <p>
+          {{field.label_tag}}
+          {{field}}
+
+          {% if field.help_text %}
+            <small style="color: grey;">{{ field.help_text }}</small>
+          {% endif %}
+
+          {% for error in field.errors %}
+            <small style="color: red;">{{ error }}</small>
+          {% endfor %}
+
+          {% if login_form.non_field_errors %}
+            <div style="color: red">
+              <p>{{ login_form.non_field_errors }}</p>
+            </div>
+          {% endif %}
+          </p>
+      {% endfor %}
+          <input type="submit" value="Login">
+      </form>
+      <script>
+        document.getElementById("id_person_id").value = "{{ asset.person_id.login }}"
+        document.getElementById("id_business_unit").value = "{{ asset.business_unit.name }}"
+        document.getElementById("id_serial_number").value = "{{ asset.serial_number }}"
+        document.getElementById("id_title").value = "{{ asset.title }}"
+        document.getElementById("id_code_name").value = "{{ asset.code_name }}"
+        document.getElementById("id_status").value = "{{ asset.status.name }}"
+        document.getElementById("id_asset_type").value = "{{ asset.asset_type.name }}"
+      </script>
+    </div>
+    <div class="col-4">
+
+    </div>
+  </div>
+</div>
+
+
+
+  <script src="js/scripts.js"></script>
+
+</body>
+</html>

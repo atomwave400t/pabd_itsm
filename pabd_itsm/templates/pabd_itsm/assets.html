@@ -1,0 +1,85 @@
+{% extends "pabd_itsm/base.html" %}
+{% block content %}
+
+<style>
+
+
+.filter-input {
+  width: 100%;
+}
+table {
+  background-color: #ccc;
+  margin-bottom: 30px;
+  border-bottom: black solid 1px;
+}
+
+</style>
+
+<body>
+
+<div class="container-fluid">
+
+  <div id="assets" class="row">
+
+    <div class="col-sm-12">
+      <form class="row" method="GET" style="width: 100%;">{% csrf_token %}
+      <table class="col-sm-12">
+        <tr>
+        <td><input class="filter-input" id="asset_code_name" type="text" name="asset_code_name" value="{{ asset_code_name }}"></td>
+        <td><input class="filter-input" id="asset_title" type="text" name="asset_title" value="{{ asset_title }}"></td>
+        <td><input class="filter-input" id="asset_serial_number" type="text" name="asset_serial_number" value="{{ asset_serial_number }}"></td>
+        <td><input class="filter-input" id="asset_status" type="text" name="asset_status" value="{{ asset_status }}"></td>
+        <td><input class="filter-input" id="asset_type" type="text" name="asset_type" value="{{ asset_type }}"></td>
+        <td><input class="filter-input" id="asset_owner_login" type="text" name="asset_owner_login" value="{{ asset_owner_login }}"></td>
+        <td><input class="filter-input" id="asset_business_unit" type="text" name="asset_business_unit" value="{{ asset_business_unit }}"></td>
+        <input type="submit" style="display: none" value="search">
+      </form>
+        </tr>
+          <tr>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>Code name</th>
+            <th>Title</th>
+            <th>Serial NO.</th>
+            <th>Status</th>
+            <th>Type</th>
+            <th>Owner</th>
+            <th>Business Unit</th>
+          </tr>
+          {% for asset in searched_assets %}
+            <tr data-href="https://www.w3schools.com/html/">
+              <td>{{ asset.code_name }}</td>
+              <td>{{ asset.title }}</td>
+              <td>{{ asset.serial_number }}</td>
+              <td>{{ asset.status.name }}</td>
+              <td>{{ asset.asset_type.name }}</td>
+              <td>{{ asset.person_id.login }}</td>
+              <td>{{ asset.business_unit.name }}</td>
+              <form action="/assets/assetDetails/" method="GET">
+                <td><input id="asset_id" type="text" name="asset_id" value="{{ asset.id }}" style="display: none"></td>
+                <td><button type="submit" name="" value="" class="btn-link">Go</button></td>
+              </form>
+            </tr>
+          {% empty%}
+          <td>brak rekordów do wyświetlenia</td>
+          {% endfor %}
+      </table>
+    </div>
+
+  </div>
+
+    <div class="col-sm">
+
+    </div>
+  </div>
+</div>
+
+
+
+  <script src="js/scripts.js"></script>
+
+</body>
+</html>
+{% endblock %}

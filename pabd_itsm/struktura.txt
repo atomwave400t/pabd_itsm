@@ -1,0 +1,37 @@
+dodatkowe 
+
+kolejka:
+	nowe_zgloszenia(bez przypisania) OK(brak filtrowania)
+	niepodjete_zgloszenia(sortowane priorytetem) OK(brak filtrowania)
+	zgloszenia_zawieszone OK(brak filtrowania)
+	twoje_zgloszenia OK
+	przejscie_do_zgloszenia OK
+
+zasoby:
+	wyszukiwanie OK
+	edycja OK
+	typy_zasobow
+
+osoby:
+	wyszukiwanie: OK
+		edycja/wglad OK
+	rodzaje_uzytkownikow(uprawnienia)
+
+zgloszenia:
+	wyszukaj: ...
+		zawieszenie OK
+		wziecie na siebie OK
+		rozwiazanie OK
+		zmiana_statusu OK
+		dziennik_prac OK
+		zasob OK
+	
+szablony_zgloszen:
+	pola_szablonow
+	typy_pol_szablonow
+
+atrybuty:
+	lokalizacje(oddziały)
+	klasyfikacje
+	plci
+	imiona

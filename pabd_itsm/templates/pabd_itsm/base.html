@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+
+<style>
+
+form {
+  display: grid;
+  grid-template-columns: 0.17fr 0.2fr;
+
+}
+
+tr {
+}
+
+
+
+
+</style>
+
+<body>
+<div class="container-fluid" style="">
+  <div class="row" style="background-color: #11ddff; height: 50px">
+    {% if request.user.is_authenticated %}
+    <div class="col-sm-3">
+      <a href="/tickets/queue"> <h2>Queue<h2> </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="/assets"> <h2>Assets<h2> </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="/persons"> <h2>Persons<h2> </a>
+    </div>
+  </div>
+  <div class="row" style="padding-bottom: 10px; padding-top: 10px">
+    <div class="col-sm-7">
+      <table style="width: 45%">
+        <p>Logged as {{request.user.login}} | <a href="{% url 'logout' %}">Logout</a></p>
+      {% else %}
+        <p>Please login to use app <a href="{% url 'login' %}">Login</a></p>
+      {% endif %}
+      </table>
+
+      <script>
+        document.getElementById("id_person_id").value = "{{ asset.person_id.login }}"
+        document.getElementById("id_business_unit").value = "{{ asset.business_unit.name }}"
+        document.getElementById("id_serial_number").value = "{{ asset.serial_number }}"
+        document.getElementById("id_title").value = "{{ asset.title }}"
+        document.getElementById("id_code_name").value = "{{ asset.code_name }}"
+        document.getElementById("id_status").value = "{{ asset.status.name }}"
+        document.getElementById("id_asset_type").value = "{{ asset.asset_type.name }}"
+      </script>
+    </div>
+    <div class="col-sm">
+
+    </div>
+  </div>
+</div>
+
+
+      {% block content %}{% endblock %}
+  <script src="js/scripts.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+{% extends "pabd_itsm/base.html" %}
+{% block content %}
+<style>
+
+
+
+form {
+  display: grid;
+  grid-template-columns: 0.18fr 0.2fr;
+
+}
+
+td, th {
+  min-width: 120px;
+  max-width: 240px;
+}
+
+.filter-input {
+  width: 95%;
+}
+
+.edit-module {
+  border: 1px black solid;
+  border-radius: 5px;
+}
+
+</style>
+
+<body>
+<div class="container-fluid">
+  <div class="row" style=" padding-bottom: 10px; padding-top: 10px">
+    <div id="ticket-edit" class="col-sm-4 edit-module" style="background-color: #1188ff">
+      <div id="date-time-details">
+        <table style="width: 45%">
+          <tr>
+            <th>Created:</th>
+          </tr>
+          <tr>
+            <td>{{ ticket.creation_date|date:'Y-m-d h:i:s'  }}</td>
+          </tr>
+          <tr>
+            <th>Last change:</th>
+            <th>End date:</th>
+          </tr>
+          <tr>
+            <td>{{ ticket.last_change_date|date:'Y-m-d h:i:s' }}</td>
+            {% if ticket.end_date %}
+            <td>{{ ticket.end_date|date:'Y-m-d h:i:s'}}</td>
+            {% else %}
+            <td>Not ended</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td><br></td>
+          </tr>
+        </table>
+      </div>
+      <form action="" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Save">
+      </form>
+    </div>
+    <div class="col-sm-3 edit-module" style="background-color: #1199ff">
+      <table>
+        <tr>
+          <th><h2>ID: {{ ticket.id }}</h2></th>
+        </tr>
+        <tr>
+          <th><br></th>
+        </tr>
+        <tr>
+          <th>Take ticket:</th>
+          <td>
+            <form action="/tickets/take/?ticket_id={{ ticket.id }}" method="post">
+              {% csrf_token %}
+              <input type="submit" value="Take" style="width: 150px; height: 40px">
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <th>Solve:</th>
+        </tr>
+        <tr>
+          <td>
+            <form action="/tickets/solve/?ticket_id={{ ticket.id }}" method="post">
+              {% csrf_token %}
+              <input type="submit" value="Solve" style="width: 150px; height: 40px">
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <th>Suspend:</th>
+        </tr>
+        <tr>
+          <form action="/tickets/suspend/?ticket_id={{ ticket.id }}&suspend_time={{ suspend_time }}" id="suspend-form" method="post">
+          {% csrf_token %}
+          <td>
+            <input type="text" name="suspend_time" value="{{ suspend_time }}" placeholder="Suspend hours">
+          </td>
+          <td>
+            <input type="submit" value="Suspend">
+          </td>
+          </form>
+        </tr>
+      </table>
+    </div>
+    <div class="col-sm edit-module" style="background-color: #11bbff">
+      <table>
+        <tr>
+          <th>Work journal</th>
+        </tr>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Author</th>
+          <th>is internal?</th>
+          <th>Date</th>
+        </tr>
+        <form action="/workJournal/newWorkRecord/"  method="GET" style="">{% csrf_token %}
+        <tr>
+          <td><input class="filter-input" id="work_record_title" type="text" name="work_record_title" value="{{ work_record_title }}"></td>
+          <td><input class="filter-input" id="work_record_description" type="text" name="work_record_description" value="{{ work_record_description }}"></td>
+          <td></td>
+          <td><input class="filter-input" id="is_internal" type="checkbox" name="is_internal" value="true" style="float: left"></td>
+          <input type="submit" style="display: none" value="addRecord">
+          <input type="text" id="ticket_id" style="display: none" name="ticket_id" value="{{ ticket.id }}">
+        </tr>
+        <tr>
+
+        </tr>
+        </form>
+        {% if work_journal %}
+        {% for record in work_journal %}
+        <tr>
+          <td>{{ record.record_title }}</td>
+          <td>{{ record.record_description|truncatechars:30 }}</td>
+          <td>{{ record.author_id.login }}</td>
+          {% if record.is_internal == True %}
+          <td>
+            <input type="checkbox" checked="checked" disabled="disabled">
+          </td>
+          {% else %}
+          <td>
+            <input type="checkbox" disabled="disabled">
+          </td>
+          {% endif %}
+          <td>{{ record.creation_date|date:'Y-m-d h:i:s' }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td style="font-size: 0.75em"><br>{{ work_journal.number }} of {{ journal_pages }}</td>
+          <td></td>
+          <td></td>
+          {% if work_journal.has_previous %}
+          <td><a href="?ticket_id={{ ticket.id }}&work_journal_page={{ work_journal.previous_page_number }}">#previous</a></td>
+          {% endif %}
+          {% if work_journal.has_next %}
+          <td><a href="?ticket_id={{ ticket.id }}&work_journal_page={{ work_journal.next_page_number }}">#next</a></td>
+          {% endif %}
+          <td></td>
+        </tr>
+        {% else %}
+        <tr>
+          <td>No records to display.</td>
+        </tr>
+        {% endif %}
+      </table>
+      <br>
+      <br>
+      <br>
+      {% if asset %}
+      <table>
+        <tr>
+          <th>Asset</th>
+        </tr>
+        <tr>
+          <th>ID: </th>
+          <td>{{ asset.code_name }}</td>
+        </tr>
+        <tr>
+          <th>Title: </th>
+          <td>{{ asset.title }}</td>
+        </tr>
+        <tr>
+          <th></th>
+          <td><a href="/assets/assetDetails/?asset_id={{ asset.id }}">go to the asset</a></td>
+        </tr>
+      </table>
+      {% else %}
+      <b>No assets related</b>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("id_title").value = "{{ ticket.title }}"
+  document.getElementById("id_description").value = "{{ ticket.description }}"
+  document.getElementById("id_status_id").value = "{{ ticket.status_id.name }}"
+  document.getElementById("id_author_id").value = "{{ ticket.author_id.login }}"
+  document.getElementById("id_owner_id").value = "{{ ticket.owner_id.login }}"
+  document.getElementById("id_resume_date").value = "{{ ticket.resume_date|date:'Y-m-d h:i:s' }}"
+  document.getElementById("id_classification").value = "{{ ticket.classification.name }}"
+  document.getElementById("id_business_unit").value = "{{ ticket.business_unit }}"
+  document.getElementById("id_priority").value = "{{ ticket.priority.value }}"
+  document.getElementById("id_asset_id").value = "{{ ticket.asset_id.id }}"
+</script>
+
+</body>
+</html>
+{% endblock %}

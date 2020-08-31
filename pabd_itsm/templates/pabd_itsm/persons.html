@@ -1,0 +1,82 @@
+{% extends "pabd_itsm/base.html" %}
+{% block content %}
+
+<style>
+
+
+.filter-input {
+  width: 100%;
+}
+table {
+  background-color: #ccc;
+  margin-bottom: 30px;
+  border-bottom: black solid 1px;
+}
+
+
+</style>
+
+<body>
+<div class="container-fluid">
+
+  <div id="assets" class="row">
+
+    <div class="col-sm-12">
+      <form class="row" method="GET" style="width: 100%;">{% csrf_token %}
+      <table class="col-sm-12">
+        <tr>
+        <td><input class="filter-input" id="person_name" type="text" name="person_name" value="{{ person_name }}"></td>
+        <td><input class="filter-input" id="person_surname" type="text" name="person_surname" value="{{ person_surname }}"></td>
+        <td><input class="filter-input" id="person_login" type="text" name="person_login" value="{{ person_login }}"></td>
+        <td><input class="filter-input" id="person_type" type="text" name="person_type" value="{{ person_type }}"></td>
+        <td><input class="filter-input" id="person_business_unit" type="text" name="person_business_unit" value="{{ person_business_unit }}"></td>
+        <td><input class="filter-input" id="person_job_title" type="text" name="person_job_title" value="{{ person_job_title }}"></td>
+        <input type="submit" style="display: none" value="search">
+      </form>
+        </tr>
+          <tr>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Login</th>
+            <th>Typ</th>
+            <th>Oddział</th>
+            <th>Stanowisko</th>
+          </tr>
+          {% for person in searched_persons %}
+            <tr data-href="https://www.w3schools.com/html/">
+              <td>{{ person.name }}</td>
+              <td>{{ person.surname }}</td>
+              <td>{{ person.login }}</td>
+              <td>{{ person.user_type }}</td>
+              <td>{{ person.business_unit }}</td>
+              <td>{{ person.job_title }}</td>
+              <form action="/persons/personDetails/" method="GET">
+                <td><input id="person_login" type="text" name="person_login" value="{{ person.login }}" style="display: none"></td>
+                <td><button type="submit" name="" value="" class="btn-link">Go</button></td>
+              </form>
+            </tr>
+          {% empty%}
+          <td>brak rekordów do wyświetlenia</td>
+          {% endfor %}
+      </table>
+    </div>
+
+  </div>
+
+    <div class="col-sm">
+
+    </div>
+  </div>
+</div>
+
+
+
+  <script src="js/scripts.js"></script>
+
+</body>
+</html>
+{% endblock %}
